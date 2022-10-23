@@ -8,6 +8,7 @@ import { Link, useParams } from 'react-router-dom';
 const Cards = () => {
   const [ base, setBase ] = React.useState(null)
   const [ ID, setID ] = React.useState('')
+  const [ time, setTIme ] = React.useState('')
 
   const {id} = useParams()
 
@@ -52,7 +53,11 @@ const Cards = () => {
         type="file" 
         onChange={e => {
           uploading(e.target.files[0])
-          alert('Подождите!')
+          alert('Подождите 30 секунд!')
+          setInterval(() => {
+            setTIme(time += 1)
+            alert(time)
+          }, [1000])
           setTimeout(() => {
             alert('Успешно добавлено, обновите страницу!')
           }, [30000])
