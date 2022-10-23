@@ -27,6 +27,7 @@ const SeeVideo = () => {
             objectFit: 'cover'
           }}
           controls
+          autoPlay
         >
           <source src={base && base.video} />
         </video>
