@@ -52,6 +52,10 @@ const Cards = () => {
         type="file" 
         onChange={e => {
           uploading(e.target.files[0])
+          alert('Подождите!')
+          setTimeout(() => {
+            alert('Успешно добавлено, обновите страницу!')
+          }, [30000])
         }}
       />
 
