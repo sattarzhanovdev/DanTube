@@ -1,0 +1,12 @@
+div{
+  input{
+    margin: 25px 0;
+  }
+  .videos{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+}
