@@ -20,23 +20,21 @@ const Cards = () => {
             }
           }).reverse()
 
-        setBase(result)
+        const filt = result.filter(item => {
+          return item.title.toLowerCase().includes(title_inp.toLowerCase())
+        })
+      
+        setBase(filt)
       })
-
-    const filt = base?.filter(item => {
-      return item.title.toLowerCase().includes(title_inp.toLowerCase())
-    })
-
-    setSearched(filt)
   }, [title_inp, searched]) 
 
   return (
     <div className={cls.cards}>
       <div className={cls.videos}>
         {
-          searched && searched?.map(({id, title, video}, i) => (
+          base && base?.map(({id, title, video}, i) => (
             <Link 
-              to={`/video/:${id}`}
+              to={`/video/${id}`}
               key={i}
             >
               <video src={video}>
