@@ -49,7 +49,7 @@ const AddVideo = () => {
 
       <button
         onClick={() => {
-          setActive(true)
+          
         }}
       >
         Send

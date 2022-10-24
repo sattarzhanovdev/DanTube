@@ -17,23 +17,22 @@ const WatchVideo = () => {
   }, [])
 
   return (
-    <div>
+    <div className={cls.watch}>
       {
         base ?
-        <video
-          style={{
-            width: '900px',
-            height: '500px',
-            background: '#00AAC1'
-          }}
-          controls
-          autoPlay
-        >
-          <source src={base && base.video} />
-        </video>
+        <div>
+          <video
+            src={base && base.video}
+            controls
+            autoPlay
+          >
+            <source src={base && base.video} />
+          </video>
+        </div>
         :
         ''
       }
+
     </div>
   )
 }
