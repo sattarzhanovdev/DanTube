@@ -5,9 +5,11 @@ import { Link, useParams } from 'react-router-dom';
 
 const Cards = () => {
   const [ base, setBase ] = React.useState(null)
+  const [ searched, setSearched ] = React.useState(null)
 
   const {id} = useParams()
 
+  const title_inp = localStorage.getItem('title')
 
   React.useEffect(() => {
     API.getVideos()
@@ -22,13 +24,19 @@ const Cards = () => {
 
         setBase(result)
       })
-  }, [])
-  
+
+    const filt = base?.filter(item => {
+      return item.title.toLowerCase().includes(title_inp.toLowerCase())
+    })
+
+    setSearched(filt)
+  }, [title_inp, searched])
+
   return (
     <div className={cls.cards}>
       <div className={cls.videos}>
         {
-          base && base.map(({id, title, video}, i) => (
+          searched && searched.map(({id, title, video}, i) => (
             <Link 
               to={`/video/${id}`}
               key={i}
@@ -36,11 +44,11 @@ const Cards = () => {
               <video>
                 <source src={video} />
               </video>
-              <h2>
+              <p>
                 {title}
-              </h2>
+              </p>
             </Link>
-          ))
+          )) 
         }
       </div>
     </div>

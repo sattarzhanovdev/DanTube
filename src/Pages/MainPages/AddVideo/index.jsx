@@ -1,5 +1,5 @@
 import React from 'react'
-import {getStorage, getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
+import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import { storage } from '../../../App.js' ;
 import { API } from '../../../API';
 import cls from './AddVideo.module.scss'
@@ -9,45 +9,57 @@ import { useNavigate } from 'react-router-dom';
 const AddVideo = () => {
   const [ active, setActive ] = React.useState(false)
   const [ title, setTitle ] = React.useState('')
+  const [ url, setUrl ] = React.useState('')
 
   const Navigate = useNavigate()
 
-  const uploading = (file) => {	
-    console.log(file.type);
-    if(file.type === 'video/mp4' || file.type === 'video/quicktime') {
-      const storageRef = ref(storage, `videos/${file.name}`);
-		  const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on("state_changed",
-			(snapshot) => {
-				const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-			},
-			(error) => {
-				alert(error);
-			},
-			() => {
-				getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-					API.postVideos({title: title, video: downloadURL})
-				});
-			})
-      
-      setActive(true)
-      setTimeout(() => {
-        setActive(false)
-        Navigate('/')
-      }, [50000])
-
-    }else{
-      alert(`format ${file.type} failed`)
-    }
+  const uploading = (file_uploaded) => {	
+    console.log(file_uploaded.type);
+    const storageRef = ref(storage, `videos/${file_uploaded.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file_uploaded);
+    uploadTask.on("state_changed",
+    (snapshot) => {
+      const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+    },
+    (error) => {
+      alert(error);
+    },
+    () => {
+      getDownloadURL(uploadTask.snapshot.ref)
+        .then((downloadURL) => {
+          setUrl(downloadURL)
+          API.postVideos({title: title, video: downloadURL})
+        });
+    })
+    
+    setActive(true)
+    setTimeout(() => {
+      setActive(false)
+      Navigate('/')
+    }, [50000])
+    
 	}
+
+  const openFile = (e) => {
+    let reader = new FileReader();
+    reader.onload = () => {
+      let dataURL = reader.result;
+      setUrl(dataURL)
+    };
+    reader.readAsDataURL(e);
+  };
+
+  console.log(url && url);
   
+
   return (
     <div className={cls.upload}>
       <input 
         type="file" 
         id="upload"
         onChange={e => {
-          uploading(e.target.files[0])
+          openFile  (e.target.files[0])
+          
         }}
       />
 
@@ -57,13 +69,32 @@ const AddVideo = () => {
         onChange={e => setTitle(e.target.value)}
       />
 
-      <label 
-        htmlFor="upload"
-      >
-        <div>
-          Upload video
+      <div className={cls.upload__btn}>
+        <label 
+          htmlFor="upload"
+        >
+          <div>
+            Upload video
+          </div>
+        </label>
+        <div className={cls.preview}>
+          <p>*preview</p>
+          <video
+            src={url && url}
+            controls
+            autoPlay
+          >
+            <source src={url && url}/>
+          </video>
         </div>
-      </label>
+      </div>
+    
+
+      <div className={cls.publish}>
+        <button onClick={() => setActive(!active)}>
+          Publish
+        </button>
+      </div>
 
       {active ? <ProgressWindow /> : ''}
     </div>

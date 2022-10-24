@@ -6,8 +6,6 @@
   .videos{
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
     gap: 15px;
     padding: 15px;
     width: 300px;
@@ -18,12 +16,12 @@
     }
     a{
       width: 320px;
-      height: 270px;
-      background: #00AAC1;
+      height: auto;
       text-decoration: none;
       display: flex;
       flex-direction: column;
       padding: 5px;
+      margin-bottom: 50px;
       @media screen and (min-width: 768px) {
         width: 350px;
         height: 250px;
@@ -38,8 +36,8 @@
           height: 250px;
         }
       }
-      h2{
-        color: white;
+      p{
+        color: black;
         font-weight: 600;
       }
     }

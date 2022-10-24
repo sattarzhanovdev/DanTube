@@ -23,7 +23,7 @@ export default function Progress() {
 
   if(value !== 100){
     setInterval(() => {
-      setValue(value += 3)
+      setValue(value += 6)
     }, [2000])
   }else{
     alert('Добавлено!')

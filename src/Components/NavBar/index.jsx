@@ -5,9 +5,29 @@ import { nav_list } from '../../Utils'
 import { Link } from 'react-router-dom'
 import { BiMenu } from 'react-icons/bi'
 import Sidebar from '../Sidebar'
+import { API } from '../../API'
 
 const NavBar = () => {
-  const [active, setActive] = React.useState(false)
+  const [ active, setActive ] = React.useState(false)
+  const [ title_inp, setTitle_inp ] = React.useState('')
+  const [ base, setBase ] = React.useState(null)
+
+  React.useEffect(() => {
+    API.getVideos()
+      .then(res => {
+        const result = Object.entries(res.data)
+          .map(([id, item]) => {
+            return {
+              id: id,
+              ...item
+            }
+          }).reverse()
+
+        setBase(result)
+      })
+  }, [])
+
+  localStorage.setItem('title', title_inp)
 
   return (
     <div className={cls.navBar}>
@@ -23,6 +43,7 @@ const NavBar = () => {
         <input 
           type="text" 
           placeholder='Search'
+          onChange={e => setTitle_inp(e.target.value)}
         />
         <button>
           <FiSearch />
