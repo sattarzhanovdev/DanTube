@@ -3,9 +3,13 @@ import {getStorage, getDownloadURL, ref, uploadBytesResumable} from "firebase/st
 import { storage } from '../../../App.js' ;
 import { API } from '../../../API';
 import cls from './AddVideo.module.scss'
+import ProgressWindow from '../../../Components/ProgressWindow/index.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const AddVideo = () => {
   const [ active, setActive ] = React.useState(false)
+
+  const Navigate = useNavigate()
 
   const uploading = (file) => {	
     console.log(file.type);
@@ -24,6 +28,13 @@ const AddVideo = () => {
 					API.postVideos({video: downloadURL})
 				});
 			})
+      
+      setActive(true)
+      setTimeout(() => {
+        setActive(false)
+        Navigate('/')
+      }, [50000])
+
     }else{
       alert(`format ${file.type} failed`)
     }
@@ -47,13 +58,7 @@ const AddVideo = () => {
         </div>
       </label>
 
-      <button
-        onClick={() => {
-          
-        }}
-      >
-        Send
-      </button>
+      {active ? <ProgressWindow /> : ''}
     </div>
   )
 }

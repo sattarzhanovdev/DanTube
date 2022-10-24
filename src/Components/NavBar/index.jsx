@@ -4,8 +4,11 @@ import { FiSearch } from 'react-icons/fi'
 import { nav_list } from '../../Utils'
 import { Link } from 'react-router-dom'
 import { BiMenu } from 'react-icons/bi'
+import Sidebar from '../Sidebar'
 
 const NavBar = () => {
+  const [active, setActive] = React.useState(false)
+
   return (
     <div className={cls.navBar}>
       <ul className={cls.logo}>
@@ -39,10 +42,14 @@ const NavBar = () => {
         }
       </ul>
       <ul className={cls.bars}>
-        <li>
+        <li onClick={() => setActive(true)}>
           <BiMenu />
         </li>
       </ul>
+      <Sidebar 
+        active={active} 
+        setActive={setActive} 
+      />
     </div>
   )
 }
