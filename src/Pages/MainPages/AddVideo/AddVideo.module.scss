@@ -1,0 +1,19 @@
+.upload{
+  input{
+    margin: 25px 0;
+    color: red;
+    display: none;
+  }
+  label{
+    div{
+      width: 150px;
+      height: 50px;
+      background: #00AAC1;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+  }
+}

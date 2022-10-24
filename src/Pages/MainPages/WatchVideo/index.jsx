@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { API } from '../../../API'
 import cls from './SeeVideo.module.scss'
 
-const SeeVideo = () => {
+const WatchVideo = () => {
   const [ base, setBase ] = React.useState('')
 
   const {id} = useParams()
@@ -22,9 +22,9 @@ const SeeVideo = () => {
         base ?
         <video
           style={{
-            width: '400px',
-            height: '100%',
-            objectFit: 'cover'
+            width: '900px',
+            height: '500px',
+            background: '#00AAC1'
           }}
           controls
           autoPlay
@@ -38,4 +38,4 @@ const SeeVideo = () => {
   )
 }
 
-export default SeeVideo
+export default WatchVideo

@@ -1,14 +1,10 @@
 import React from 'react'
 import { API } from '../../API'
-import {getStorage, getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import cls from './Cards.module.scss'
-import { storage } from '../../App';
 import { Link, useParams } from 'react-router-dom';
 
 const Cards = () => {
   const [ base, setBase ] = React.useState(null)
-  const [ ID, setID ] = React.useState('')
-  const [ time, setTIme ] = React.useState('')
 
   const {id} = useParams()
 
@@ -27,43 +23,9 @@ const Cards = () => {
         setBase(result)
       })
   }, [])
-
-  const uploading = (file) => {	
-		const storageRef = ref(storage, `videos/${file.name}`);
-		const uploadTask = uploadBytesResumable(storageRef, file);
-		
-		uploadTask.on("state_changed",
-			(snapshot) => {
-				const progress =
-					Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-			},
-			(error) => {
-				alert(error);
-			},
-			() => {
-				getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-					API.postVideos({video: downloadURL})
-				});
-			}
-		);
-	}
+  
   return (
     <div>
-      <input 
-        type="file" 
-        onChange={e => {
-          uploading(e.target.files[0])
-          alert('Подождите 30 секунд!')
-          setInterval(() => {
-            setTIme(time += 1)
-            alert(time)
-          }, [1000])
-          setTimeout(() => {
-            alert('Успешно добавлено, обновите страницу!')
-          }, [30000])
-        }}
-      />
-
       <div className={cls.videos}>
         {
           base && base.map(({id, video}, i) => (
@@ -71,13 +33,7 @@ const Cards = () => {
               to={`/video/${id}`}
               key={i}
             >
-              <video
-                style={{
-                  width: '400px',
-                  height: '300px',
-                  objectFit: 'cover'
-                }}
-              >
+              <video>
                 <source src={video} />
               </video>
             </Link>

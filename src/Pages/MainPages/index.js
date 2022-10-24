@@ -1,7 +1,7 @@
 import Home from "./Home";
-import SeeVideo from "./SeeVideo";
+import WatchVideo from "./WatchVideo";
 
 export const MainPages = {
   Home,
-  SeeVideo
+  WatchVideo
 }
