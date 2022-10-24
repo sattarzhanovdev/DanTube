@@ -10,13 +10,14 @@ const AddVideo = () => {
   const [ active, setActive ] = React.useState(false)
   const [ title, setTitle ] = React.useState('')
   const [ url, setUrl ] = React.useState('')
+  const [ file, setFile ] = React.useState(null)
 
   const Navigate = useNavigate()
 
-  const uploading = (file_uploaded) => {	
-    console.log(file_uploaded.type);
-    const storageRef = ref(storage, `videos/${file_uploaded.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, file_uploaded);
+  const uploading = () => {	
+    console.log(file.type);
+    const storageRef = ref(storage, `videos/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on("state_changed",
     (snapshot) => {
       const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
@@ -58,8 +59,8 @@ const AddVideo = () => {
         type="file" 
         id="upload"
         onChange={e => {
-          openFile  (e.target.files[0])
-          
+          openFile(e.target.files[0])
+          setFile(e.target.files[0])
         }}
       />
 
@@ -91,7 +92,7 @@ const AddVideo = () => {
     
 
       <div className={cls.publish}>
-        <button onClick={() => setActive(!active)}>
+        <button onClick={() => uploading()}>
           Publish
         </button>
       </div>

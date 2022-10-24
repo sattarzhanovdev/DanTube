@@ -7,8 +7,6 @@ const Cards = () => {
   const [ base, setBase ] = React.useState(null)
   const [ searched, setSearched ] = React.useState(null)
 
-  const {id} = useParams()
-
   const title_inp = localStorage.getItem('title')
 
   React.useEffect(() => {
@@ -30,18 +28,18 @@ const Cards = () => {
     })
 
     setSearched(filt)
-  }, [title_inp, searched])
+  }, [title_inp, searched]) 
 
   return (
     <div className={cls.cards}>
       <div className={cls.videos}>
         {
-          searched && searched.map(({id, title, video}, i) => (
+          searched && searched?.map(({id, title, video}, i) => (
             <Link 
-              to={`/video/${id}`}
+              to={`/video/:${id}`}
               key={i}
             >
-              <video>
+              <video src={video}>
                 <source src={video} />
               </video>
               <p>
