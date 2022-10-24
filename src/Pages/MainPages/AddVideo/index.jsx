@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AddVideo = () => {
   const [ active, setActive ] = React.useState(false)
+  const [ title, setTitle ] = React.useState('')
 
   const Navigate = useNavigate()
 
@@ -25,7 +26,7 @@ const AddVideo = () => {
 			},
 			() => {
 				getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-					API.postVideos({video: downloadURL})
+					API.postVideos({title: title, video: downloadURL})
 				});
 			})
       
@@ -50,11 +51,17 @@ const AddVideo = () => {
         }}
       />
 
+      <input 
+        type="text"
+        placeholder='Title of video'
+        onChange={e => setTitle(e.target.value)}
+      />
+
       <label 
         htmlFor="upload"
       >
         <div>
-          Upload  
+          Upload video
         </div>
       </label>
 

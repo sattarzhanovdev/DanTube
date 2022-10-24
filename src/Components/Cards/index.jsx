@@ -25,10 +25,10 @@ const Cards = () => {
   }, [])
   
   return (
-    <div>
+    <div className={cls.cards}>
       <div className={cls.videos}>
         {
-          base && base.map(({id, video}, i) => (
+          base && base.map(({id, title, video}, i) => (
             <Link 
               to={`/video/${id}`}
               key={i}
@@ -36,6 +36,9 @@ const Cards = () => {
               <video>
                 <source src={video} />
               </video>
+              <h2>
+                {title}
+              </h2>
             </Link>
           ))
         }

@@ -28,6 +28,9 @@ const WatchVideo = () => {
           >
             <source src={base && base.video} />
           </video>
+          <div className={cls.title}>
+            <h2>{base.title}</h2>
+          </div>
         </div>
         :
         ''
